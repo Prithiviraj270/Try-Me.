@@ -2,7 +2,15 @@ import tkinter as tk
 from time import strftime
 from tkinter import messagebox
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
 
+    return os.path.join(base_path, relative_path)
 def show_home_content():
     can2.delete("all")  # Clear canvas
     abt_text.config(state="normal")  # Enable text widget for editing
@@ -274,8 +282,8 @@ def new():
             MailID = mai.get()
             Password = pa.get()
             CPassword = cip.get()
-            mys = pymysql.connect(host="localhost", user="root",
-                                  password="root", database="tryme")
+            mys = pymysql.connect(resource_path(host="localhost", user="root",
+                                  password="root", database="tryme"))
             myc = mys.cursor()
             sq = "Insert into su(Name,Uname,MailID,Password,CPassword)values(%s,%s,%s,%s,%s)"
             value = (Name, Uname, MailID, Password, CPassword)
@@ -338,8 +346,8 @@ def login():
     pas.place(x=250, y=250)
 
     def log():
-        mysql = pymysql.connect(host="localhost",
-                                user="root", password="root", database="tryme")
+        mysql = pymysql.connect(resource_path(host="localhost",
+                                user="root", password="root", database="tryme"))
         mycuror = mysql.cursor()
         sql = "select Uname, Password from su where Uname=%s and Password=%s"
         val = (nam.get(), pas.get())
@@ -634,8 +642,8 @@ def hanger_rt():
             Finishing_By = lem9.get()
             F_Composition = lfn12.get()
 
-            mys = pymysql.connect(host="localhost",
-                                  user="root", password="root", database="tryme")
+            mys = pymysql.connect(resource_path(host="localhost",
+                                  user="root", password="root", database="tryme"))
             myc = mys.cursor()
             is_pending = 1 if is_pending_var.get() == 1 else 0
 
@@ -708,7 +716,7 @@ def hanger_rt():
         hd = tk.Tk()
         hd.title("Hanger Details Updation")
         hd.geometry("1300x700")
-        con = pymysql.connect(host="localhost", user="root", password="root", database="tryme")
+        con = pymysql.connect(resource_path(host="localhost", user="root", password="root", database="tryme"))
         conn = con.cursor()
         conn.execute("select * from hanger_entry")
         lb = tk.Canvas(hd, highlightthickness=0, highlightbackground="chocolate4",
@@ -1209,7 +1217,7 @@ def hanger_rt():
         ht.title("TRY ME.COM - Pending Hanger Entries")
         ht.geometry("1200x600")
 
-        my = pymysql.connect(host="localhost", user="root", password="root", database="tryme")
+        my = pymysql.connect(resource_path(host="localhost", user="root", password="root", database="tryme"))
         my_conn = my.cursor()
 
         columns = ["SI.NO", "Date", "M_SubNo", "Color", "F_Des", "A_GSM", "Buyer",
