@@ -1,7 +1,8 @@
 import tkinter as tk
 from time import strftime
 from tkinter import messagebox
-
+import sys
+import os
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
